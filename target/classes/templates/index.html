@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Company Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <style>
+        .navbar-custom {
+            background-color: black; /* Grey background color */
+        }
+        .navbar-custom .navbar-text {
+            color: #ffffff; /* Text color */
+        }
+        .navbar-custom .nav-link {
+            color: #ffffff !important; /* Link text color */
+            margin-left: 10px; /* Optional margin for spacing */
+            font-weight: normal; /* Remove bold */
+            font-size: 0.875rem; /* Font size */
+        }
+        .navbar-custom .nav-link.username,
+        .navbar-custom .nav-link.najava,
+        .navbar-custom .nav-link.odjava {
+            font-size: 1rem; /* Font size */
+            font-weight: normal; /* Remove bold */
+            color: white !important; /* Text color */
+        }
+        .navbar-custom .nav-link:hover {
+            color: #cccccc !important; /* Hover color */
+        }
+
+        /* Card header styling */
+        .card-header {
+            background-color: #dff0d8; /* Lighter background color */
+            color: #3c763d; /* Title color */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125); /* Optional border */
+        }
+        .card-body {
+            display: flex;
+            align-items: start;
+        }
+        .card-body > img {
+            max-width: 200px; /* Adjust maximum width */
+            margin-right: 20px; /* Optional margin for spacing */
+        }
+        .card-body .card-text {
+            margin-top: 0.5rem; /* Optional margin */
+        }
+        #img {
+            width: 50%;
+            height: auto;
+            margin-left: 20px;
+        }
+        .mt-15 {
+            margin-top: 15px;
+        }
+        .table-task th {
+            background-color: #dff0d8;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" th:href="@{'/'}">
+            <img id="img" th:src="@{/finki-logo.png}" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link username" sec:authorize="isAuthenticated()" sec:authentication="name" style="color:white"></a> <!-- Replace with authenticated user's name -->
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link najava" th:href="@{/company/register}">Регистрирај команија</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link najava" th:href="@{/student/register}">Регистрирај студент</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link najava" href="/login">Најава</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link odjava" href="javascript:document.getElementById('logoutForm').submit()">Одјава</a>
+                </li>
+            </ul>
+            <!-- Logout Form -->
+            <form action="/logout" class="navbar-right" id="logoutForm" method="post">
+                <input name="__RequestVerificationToken" type="hidden" value="вредност_на_CSRF_токенот"/>
+            </form>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container mt-4" sec:authorize="hasRole('COMPANY')">
+        <h1>Систем за управување со пракси</h1>
+        <p>Ако по најавата, не ја гледате страната која иницијално ја пристапивте, пристапете на линкот одново.</p>
+
+        <p>Ова е ситем кој е со отворен код и се развива во рамки на предметот Веб Програмирање под водство на проф. д-р Костадин Мишев.
+            Изворниот код на системот е достапен
+            <a th:href="@{/company/profile}" target="_blank"><b>овде</b></a>.
+            За пријавувње на багови и предлог на нови функцоналности, може да се креира задача преку следниот
+            <a th:href="@{/company/profile}" target="_blank"><b>линк</b></a>.
+        </p>
+    </div>
+
+    <div class="container mt-4" sec:authorize="hasRole('STUDENT')">
+        <h1>Систем за управување со пракси</h1>
+        <p>Ако по најавата, не ја гледате страната која иницијално ја пристапивте, пристапете на линкот одново.</p>
+
+        <p>Ова е ситем кој е со отворен код и се развива во рамки на предметот Веб Програмирање под водство на проф. д-р Костадин Мишев.
+            Изворниот код на системот е достапен
+            <a th:href="@{/student/advertisements}" target="_blank"><b>овде</b></a>.
+            За пријавувње на багови и предлог на нови функцоналности, може да се креира задача преку следниот
+            <a th:href="@{/student/advertisements}" target="_blank"><b>линк</b></a>.
+        </p>
+    </div>
+
+    <hr>
+
+
+    <div class="container mt-15">
+        <table class="table table-task" style="width: 50%">
+            <thead>
+            <tr>
+                <th colspan="2">Полнење на базата:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-start">1</td>
+                <td class="text-start">Изгаси ја апликацијата</td>
+            </tr>
+            <tr>
+                <td class="text-start">2</td>
+                <td class="text-start">Изврши clean.sql</td>
+            </tr>
+            <tr>
+                <td class="text-start">3</td>
+                <td class="text-start">Пушти ја апликацијата, се генерираат табели</td>
+            </tr>
+            <tr>
+                <td class="text-start">4</td>
+                <td class="text-start">Изврши seed.sql</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
